@@ -55,9 +55,34 @@ jQuery(document).ready(function($) {
   });
 });
 
+
+const form = document.getElementById('contact');
+
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+  
+  emailjs.init('7jXkmvKr1zw4yNGx4');
+  // console.log('LOG');
+
+  const t_name = document.getElementById('name').value;
+  const msg = document.getElementById('message').value;
+
+  const tempParam = {
+    to_name: t_name,
+    message: msg,
+  };
+
+  emailjs.send('service_10fm25p', 'template_dblsddh', tempParam)
+    .then(function (response) {
+      console.log('Success', response.status, response.text);
+    }, function (error) {
+      console.log('error: ', error);
+    });
+});
+
 jQuery(document).ready(function($) {
   'use strict';
-$('.project-filter .filter').click(function() {
+  $('.project-filter .filter').click(function() {
       var filterValue = $(this).data('filter');
       console.log('Filter clicked:', filterValue);
       $('#tmneyik').fadeIn(2000);
