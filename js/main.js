@@ -84,7 +84,6 @@ jQuery(document).ready(function($) {
   'use strict';
   $('.project-filter .filter').click(function() {
       var filterValue = $(this).data('filter');
-      console.log('Filter clicked:', filterValue);
       $('#tmneyik').fadeIn(2000);
       $('.projects-holder').mixitup('filter', '.' + filterValue);
   });
