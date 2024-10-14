@@ -4,7 +4,7 @@
 	"description": "My Portfolio Website",
 	"main": "main.js",
 	"scripts": {
-	  "build": "webpack"
+		"build": "webpack --config js/webpack.config.js"
 	},
 	"dependencies": {},
 	"devDependencies": {
