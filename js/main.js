@@ -61,8 +61,12 @@ const form = document.getElementById('contact');
 form.addEventListener('submit', function (event) {
   event.preventDefault();
   
-  emailjs.init('7jXkmvKr1zw4yNGx4');
-  // console.log('LOG');
+  const service_id = process.env.SERVICEID;
+  const template_id = process.env.TEMPLATEID;
+  const api_key = process.env.APIKEY;
+
+
+  emailjs.init(api_key);
 
   const t_name = document.getElementById('name').value;
   const msg = document.getElementById('message').value;
@@ -72,7 +76,7 @@ form.addEventListener('submit', function (event) {
     message: msg,
   };
 
-  emailjs.send('service_10fm25p', 'template_dblsddh', tempParam)
+  emailjs.send(service_id, template_id, tempParam)
     .then(function (response) {
       console.log('Success', response.status, response.text);
     }, function (error) {
