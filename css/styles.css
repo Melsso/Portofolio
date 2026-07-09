@@ -563,6 +563,16 @@ footer .contact-info a {
 	font-weight: 500;
 }
 
+.project-item .image {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+}
+.project-item .image p { margin: 8px 0; }
+.project-item .image a { margin-top: 10px; }
+
 @media (max-width: 991px){
 
 	.baner-content .text-content p {
