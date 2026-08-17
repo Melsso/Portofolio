@@ -420,6 +420,37 @@ p {
 	transition: all 0.5s;
 }
 
+.email-notification {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 9999;
+
+    padding: 14px 22px;
+    border-radius: 5px;
+
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.email-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.email-notification.success {
+    background: #28a745;
+}
+
+.email-notification.error {
+    background: #dc3545;
+}
+
 footer {
 	margin-top: -6px;
 	background-color: #373a3c;
