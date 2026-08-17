@@ -10,35 +10,35 @@ I'm a software developer with a Bachelor's degree in Computer Science and 1 year
 
 - **[Hang](https://github.com/Melsso/hang)**
 	- A production-style real-time messaging system built with FastAPI, WebSockets, Redis Pub/Sub, PostgreSQL, and Dockerized multi-instance deployment behind NGINX load balancing.
-	- **Tech:** HTML, CSS, Jinja, JavaScript, PostgreSQL, Python, RESTful, NGINX, Docker, Redis, FastAPI
+	- **Tech:** Python, FastAPI, WebSockets, Redis Pub/Sub, PostgreSQL, NGINX, Docker, React, CI
 
 - **[Durden](https://github.com/Melsso/Durden)**
-	- A production-style image detection API built with FastAPI and YOLO, supporting multiple models, structured predictions, and asynchronous model loading. Containerized and deployed on Google Cloud Run with automated GitHub Actions CI/CD for testing, image publishing, and deployment.
+	- An image detection API built with FastAPI and YOLO, supporting multiple models, structured predictions, and asynchronous model loading. Containerized and deployed on Google Cloud Run with automated GitHub Actions CI/CD for testing, image publishing, and deployment.
 	- **Tech:** Python, FastAPI, YOLO, Docker, Google Cloud Run, GitHub Actions, CI/CD
+
+- **[Sentinel](https://github.com/Melsso/sentinel)**
+	- An authentication service built with FastAPI, Postgres, and Redis. Handles registration, email verification, login with rotating refresh tokens, password reset, and account deletion, with rate limiting, structured audit logging, and CORS/security headers baked in. Fully Dockerized with a GitHub Actions CI pipeline running ruff, mypy, pytest, and pip-audit.
+	- **Tech:** Python, FastAPI, PostgreSQL, Redis, Docker, GitHub Actions, ruff, mypy, pytest, CI
+
+- **[Queue Task Manager](https://github.com/Melsso/queue-task-manager)**
+	- An asynchronous task queue system built with FastAPI, SQLAlchemy, and distributed workers. It enables workers to register capabilities, receive tasks from a broker, execute jobs asynchronously, and report results with support for task prioritization, retries, heartbeats, and full end-to-end task lifecycle management.
+	- **Tech:** Python, FastAPI, SQLAlchemy, Distributed Workers, Async, CI
+
+- **[Rate Limiter](https://github.com/Melsso/rate-limiter)**
+	- An asynchronous Python rate limiting library built with FastAPI and Redis, supporting Fixed Window, Sliding Window, and Token Bucket algorithms. It uses Lua scripts for atomic Redis operations where appropriate, includes FastAPI middleware and route decorators for seamless integration, exposes standard rate-limit response headers, and is fully tested with pytest, ruff, mypy, GitHub Actions CI, and performance benchmarks using pytest-benchmark.
+	- **Tech:** Python, FastAPI, Redis, Lua, pytest-benchmark, CI
+
+- **[Search Engine](https://github.com/Melsso/search-engine)**
+	- A vector database built from scratch in Python: brute-force and HNSW approximate search, named collections with metadata filtering, disk persistence, a FastAPI HTTP layer, Docker deployment, and CI — with real benchmarking work showing where HNSW actually beats brute force and what it costs to get there.
+	- **Tech:** Python, FastAPI, HNSW, Vector Search, Docker, CI
+
+- **[Mini Cache](https://github.com/Melsso/mini_cache)**
+	- A distributed, Redis-wire-compatible (RESP2) key-value cache built from scratch in Python/asyncio. Supports TTL-based expiry, AOF persistence, primary/replica replication with heartbeat-based failover detection, and client-side consistent-hashing sharding across multiple nodes. Deployable via Docker Compose as a multi-shard cluster.
+	- **Tech:** Python, asyncio, RESP2, Consistent Hashing, Docker Compose
 
 - **[Transcendence](https://github.com/Melsso/Transcendence)**
 	- A full-stack, real-time multiplayer web application recreating and extending the classic Pong game, featuring user authentication, matchmaking, live gameplay, and social interaction. *(In progress)*
-	- **Tech:** HTML, CSS, JavaScript, PostgreSQL, Django, RESTful, WebSocket, Daphne, Redis, NGINX, Docker, Make
-
-- **[Inception](https://github.com/Melsso/Inception)**
-	- A containerized web infrastructure project deploying a secure, production-like environment with Docker — NGINX as a TLS-enabled reverse proxy, WordPress as the application layer, and MariaDB for persistent storage.
-	- **Tech:** Docker, NGINX, WordPress, MariaDB, VirtualBox
-
-- **[IRC](https://github.com/khnishou/IRC)**
-	- A real-time messaging server supporting multiple channels, private messaging, and file sharing, built from scratch in C++.
-	- **Tech:** C++, WebSocket, STL, KVIrc, WeeChat, Make, CMake
-
-- **[C++ OOP Modules](https://github.com/Melsso/CPP)**
-	- A series of C++ modules exploring core object-oriented programming concepts, including classes, inheritance, and polymorphism.
-	- **Tech:** C++, Make, CMake
-
-- **[Minishell](https://github.com/Melsso/Minishell_42)**
-	- A simplified Unix shell built from scratch in C, implementing command parsing, execution, and core behaviors of standard shells like Bash.
-	- **Tech:** C, POSIX, Make
-
-- **[Cub3D](https://github.com/Melsso/Cub3d)**
-	- A raycasting-based game engine rendering a 2D map as a real-time 3D environment, inspired by early first-person games.
-	- **Tech:** C, MiniLibX42, Make
+	- **Tech:** Django, PostgreSQL, Daphne, WebSocket, Redis, Docker Compose
 
 ## Resume
 

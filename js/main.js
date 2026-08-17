@@ -51,21 +51,6 @@ jQuery(document).ready(function($) {
             $(".header").removeClass("active");
         }
     });
-    $('.project-filter .filter').click(function() {
-        var filterValue = $(this).data('filter');
-        $('#cont').fadeIn(2000);
-        $('.projects-holder').mixitup('filter', filterValue);
-    });
-    
-    $('.projects-holder').mixitup({
-        effects: ['fade','grayscale'],
-        easing: 'snap',
-        transitionSpeed: 400,
-        load: {
-            filter: '.hang'
-        }
-    });
-
 });
 
 

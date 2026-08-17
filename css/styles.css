@@ -266,13 +266,6 @@ p {
 #about .service-item {
 	margin-top: 35px;
 }
-
-.projects-holder .project-item {
-    display: none;
-}
-.projects-holder {
-	padding: 30px 15px 0px 15px;
-}
 .filter-categories {
   margin-top: 60px;
 }
@@ -294,51 +287,6 @@ p {
 }
 #portoflio .page-section {
 	padding: 0px;
-}
-#portfolio .section-heading {
-	padding-top: 200px;
-	padding-bottom: 200px;
-	background-image: url(../img/about-bg.jpg);
-	height: 732px;
-	margin-left: -100vh;
-	padding-left: 100vh;
-}
-#portfolio .project-item {
-	margin: 0px -16px;
-}
-#portfolio .project-item  em {
-	font-style: normal;
-	font-size: 28px;
-	position: absolute;
-	left:15%;
-	color: #f7c552;
-	font-weight: 800;
-}
-#portfolio .project-item p {
-	font-size: 20px;
-	padding: 25px;
-}
-#portfolio .project-item a {
-	color: #f7c552;
-	font-size: 18px;
-}
-#portfolio .section-heading h4 {
-	margin-top: 0px;
-	font-size: 20px;
-	text-transform: uppercase;
-	font-weight: 700;
-	color: #fff;
-	letter-spacing: 1px;
-}
-#portfolio .section-heading .line-dec {
-	width: 270px;
-	height: 1px;
-	background-color: rgba(250, 250, 250, 0.5);
-	margin: 20px 0px 15px 0px;
-}
-#portfolio .section-heading p {
-	color: #fff;
-	padding-right: 70px;
 }
 
 .owl-pagination {
@@ -368,7 +316,6 @@ p {
 }
 
 #contact-me {
-	/* background-color: #596065; */
 	background-image: url("../img/contact-bg.jpg");
 	text-align: center;
 	padding: 80px 0px;
@@ -563,16 +510,6 @@ footer .contact-info a {
 	font-weight: 500;
 }
 
-.project-item .image {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-	padding: 20px;
-}
-.project-item .image p { margin: 8px 0; }
-.project-item .image a { margin-top: 10px; }
-
 @media (max-width: 991px){
 
 	.baner-content .text-content p {
@@ -582,32 +519,6 @@ footer .contact-info a {
 	#about .service-item {
 		margin-bottom: 80px;
 	} 
-
-	#portfolio .section-heading {
-		text-align: center;
-		padding-top: 100px;
-		padding-bottom: 100px;
-		background-color: #33c1cf;
-		height: 505px;
-		margin-left: -15px;
-		padding-left: 0vh;
-		margin-right: -15px;
-		padding-right: 0vh;
-		overflow: hidden;
-	}
-	#portfolio .section-heading .line-dec {
-		margin: 20px auto 15px auto;
-	}
-	#portfolio .section-heading p {
-		padding: 0px 20px;
-	}
-	.projects-holder {
-		text-align: center;
-		padding: 15px 0px;
-	}
-	#portfolio .project-item {
-		margin: 15px 0px;
-	}
 
 	.tabs {
 		padding: 0px 45px;
