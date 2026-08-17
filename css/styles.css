@@ -72,7 +72,7 @@ p {
     padding: 0;
     z-index: 10000;
     transition: all 0.2s ease-in-out;
-    height: 80px;
+    height: 50px;
     background-color:transparent;  
     
     text-align: center;
@@ -83,7 +83,7 @@ p {
     text-shadow: none;
 }
 .navbar-brand {
-	line-height: 80px;
+	line-height: 50px;
 	padding: 0px;
 }
 .navbar-nav>li>a {
@@ -92,7 +92,7 @@ p {
 	font-weight: 300;
 	text-transform: uppercase;
 	text-shadow: none;
-	line-height: 80px;
+	line-height: 50px;
 	padding: 0px;
 	letter-spacing: 0.5px;
 }
