@@ -1,55 +1,20 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     'use strict';
-    var owl = $("#owl-testimonials");
-    owl.owlCarousel({ 
-        pagination : true,
-        paginationNumbers: false,
-        autoPlay: 6000,
-        items : 1,
-        itemsDesktop : [1000,1],
-        itemsDesktopSmall : [900,1],
-        itemsTablet: [600,1],
-        itemsMobile : false    
-    });
-    var top_header = $('.parallax-content');
-    top_header.css({'background-position':'center center'});
-    
-    $(window).scroll(function () {
-        var st = $(this).scrollTop();
-        top_header.css({'background-position':'center calc(50% + '+(st*.5)+'px)'});
-    });
-    
-    $('.counter').each(function() {
-        var $this = $(this),
-        countTo = $this.attr('data-count');  
-        $({ countNum: $this.text()}).animate({
-        countNum: countTo
-        },
 
-        {
-        duration: 8000,
-        easing:'linear',
-        step: function() {
-            $this.text(Math.floor(this.countNum));
-        },
-        complete: function() {
-            $this.text(this.countNum);
-        }
-        });  
+    var topHeader = $('.parallax-content');
+    topHeader.css({ 'background-position': 'center center' });
+
+    $(window).on('scroll', function () {
+        var st = $(this).scrollTop();
+        topHeader.css({ 'background-position': 'center calc(50% + ' + (st * 0.5) + 'px)' });
+        $('.header').toggleClass('active', st > 100);
     });
-    
-    $(".pop-button").click(function () {
-        $(".pop").fadeIn(300);
+
+    $('.pop-button').click(function () {
+        $('.pop').fadeIn(300);
     });
-    $(".pop > span").click(function () {
-        $(".pop").fadeOut(300);
-    });
-    $(window).on("scroll", function() {
-        if($(window).scrollTop() > 100) {
-        $(".header").addClass("active");
-        } else {
-            $(".header").removeClass("active");
-        }
+    $('.pop > span').click(function () {
+        $('.pop').fadeOut(300);
     });
 });
 
@@ -73,10 +38,10 @@ form.addEventListener('submit', function (event) {
         to_name: t_name,
         message: msg,
     };
-    
+
     $(".pop").fadeOut(300);
     submitButton.disabled = true;
-    
+
     emailjs.send(service_id, template_id, tempParam)
     .then(function (response) {
         console.log('Success', response.status, response.text);

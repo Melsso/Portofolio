@@ -11,7 +11,14 @@
      tech        - array of tech-stack tag strings
      github      - link to the repo
      live        - optional live URL (omit if none)
-     featured    - true = shown as a large tile at the top
+     video       - optional demo video URL (omit or leave "" if none).
+                   Supported:
+                     - YouTube / Vimeo / Loom links  -> embedded player
+                     - direct .mp4 / .webm links      -> <video> player
+                     - GitHub user-attachments links  -> <video> player,
+                       with a "Watch the demo" link as fallback
+                   Projects with a video get a "Demo" badge on the card
+                   and the player appears in the modal.
      image       - optional path to a real screenshot, e.g.
                    "img/projects/hang.png". If the file is missing
                    or this is omitted, the generated diagram below
@@ -25,15 +32,46 @@
 
 const PROJECTS = [
   {
+    id: "lad",
+    name: "LAD",
+    status: "Flagship",
+    tagline: "A fully local AI assistant with a tool-calling agent. No external model API.",
+    description:
+      "A personal, locally hosted ChatGPT/Claude-style chat app built with FastAPI, React, Postgres/pgvector, and Ollama, with no external LLM API. Chats run in a lighter chat mode or a larger agent mode. Both use an MCP-based tool-calling loop (each tool is its own stdio MCP server) with web search and cross-chat semantic memory recall over rolling conversation summaries. Agent mode adds a sandboxed shell and file uploads. The sandbox is an offline, credential-free container on an internal Docker network, running as non-root with dropped capabilities and CPU, memory and process limits, and the API only accepts requests from nginx. Replies stream over SSE. Dockerized behind nginx with a single startup script, and tested with pytest (including real Postgres via testcontainers), Vitest and MSW, with GitHub Actions CI running ruff, mypy, oxlint and tsc.",
+    tech: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL", "pgvector", "Ollama", "MCP", "SSE", "Docker Compose", "Nginx", "GitHub Actions"],
+    github: "https://github.com/Melsso/lad",
+    video: "https://github.com/user-attachments/assets/173c6464-5a8d-4fe6-8bbb-6c55bdfd601d",
+    diagram: {
+      nodes: [
+        { id: "browser", col: 0, row: "mid", label: "Browser" },
+        { id: "nginx", col: 1, row: "mid", label: "Nginx", accent: "cyan" },
+        { id: "api", col: 2, row: "mid", label: "FastAPI", accent: "gold" },
+        { id: "tools", col: 2, row: "bottom", label: "MCP Tools", accent: "gold" },
+        { id: "ollama", col: 3, row: "top", label: "Ollama (host)", accent: "gold" },
+        { id: "pg", col: 3, row: "mid", label: "Postgres pgvector", accent: "cyan" },
+        { id: "sandbox", col: 3, row: "bottom", label: "Sandbox" }
+      ],
+      edges: [
+        { from: "browser", to: "nginx" },
+        { from: "nginx", to: "api" },
+        { from: "api", to: "pg" },
+        { from: "api", to: "ollama" },
+        { from: "api", to: "tools" },
+        { from: "tools", to: "pg" },
+        { from: "tools", to: "sandbox" }
+      ]
+    }
+  },
+  {
     id: "hang",
     name: "Hang",
-    status: "Flagship",
+    status: "Complete",
     tagline: "A real-time social/dating platform built to scale horizontally.",
     description:
-      "A social dating platform where users create accounts, swipe on profiles, and chat in real time. Built to support horizontally scaled WebSocket servers, with Redis Pub/Sub propagating events across instances and NGINX load balancing traffic between them. My most complete project end to end.",
+      "A social dating platform where users register with email/password or Google OAuth, edit profiles with images stored in S3-compatible storage, swipe on other users, and chat after a mutual match. Real-time messaging runs on WebSockets with typing indicators, read receipts and cursor-based pagination. Redis Pub/Sub propagates events across multiple stateless FastAPI instances behind Nginx, with per-user rate limiting, Prometheus metrics and Grafana dashboards. Load tested end to end through Nginx with zero dropped messages at up to 2,000 concurrent WebSocket connections, a test that also exposed and led to a fix for a database-session leak. Built with FastAPI, PostgreSQL, React and TypeScript, Dockerized, with GitHub Actions CI running ruff, mypy and tests against real Postgres and Redis containers.",
     tech: ["Python", "FastAPI", "WebSockets", "Redis Pub/Sub", "PostgreSQL", "NGINX", "Docker", "React", "CI"],
     github: "https://github.com/Melsso/hang",
-    featured: true,
+    video: "",
     diagram: {
       nodes: [
         { id: "client", col: 0, row: "mid", label: "Browser" },
@@ -57,23 +95,26 @@ const PROJECTS = [
     status: "Deployed",
     tagline: "An object detection API, containerized and shipped to Cloud Run.",
     description:
-      "An object detection API built with FastAPI and YOLO, supporting multiple models, structured predictions, and asynchronous model loading. Containerized and deployed on Google Cloud Run, with a GitHub Actions pipeline handling testing, image publishing, and deployment automatically.",
+      "An object detection API built with FastAPI and Ultralytics YOLO. Clients upload an image and get back labels, confidence scores, bounding boxes and inference time, with optional per-request model selection across multiple loaded YOLO models. Models load in a background task at startup, so the service reports readiness through `/health` and `/status` and returns 503 on `/predict` until they are ready. Ships with a dependency-free web UI (HTML/CSS/JS with canvas overlays and a confidence slider). CPU-only PyTorch Docker image, with GitHub Actions CI running ruff and pytest, publishing to GHCR and deploying to Google Cloud Run via workload identity federation.",
     tech: ["Python", "FastAPI", "YOLO", "Docker", "Google Cloud Run", "GitHub Actions", "CI/CD"],
     github: "https://github.com/Melsso/durden",
-    featured: true,
     diagram: {
       nodes: [
-        { id: "client", col: 0, row: "mid", label: "Client" },
-        { id: "api", col: 1, row: "mid", label: "FastAPI", accent: "gold" },
-        { id: "yolo", col: 2, row: "mid", label: "YOLO Model", accent: "gold" },
-        { id: "run", col: 3, row: "mid", label: "Cloud Run", accent: "cyan" },
-        { id: "ci", col: 3, row: "top", label: "GH Actions" }
+        { id: "client", col: 0, row: "mid", label: "Browser" },
+        { id: "api", col: 2, row: "mid", label: "FastAPI", accent: "gold" },
+        { id: "detector", col: 3, row: "mid", label: "Detector Service", accent: "gold" },
+        { id: "models", col: 3, row: "top", label: "YOLO Models", accent: "gold" },
+        { id: "ci", col: 0, row: "bottom", label: "GH Actions" },
+        { id: "ghcr", col: 1, row: "bottom", label: "GHCR" },
+        { id: "run", col: 2, row: "bottom", label: "Cloud Run", accent: "cyan" }
       ],
       edges: [
         { from: "client", to: "api" },
-        { from: "api", to: "yolo" },
-        { from: "yolo", to: "run" },
-        { from: "ci", to: "run", dashed: true }
+        { from: "api", to: "detector" },
+        { from: "detector", to: "models" },
+        { from: "ci", to: "ghcr", dashed: true },
+        { from: "ghcr", to: "run", dashed: true },
+        { from: "run", to: "api", dashed: true }
       ]
     }
   },
@@ -83,22 +124,28 @@ const PROJECTS = [
     status: "Complete",
     tagline: "An authentication service with rotating refresh tokens and full audit logging.",
     description:
-      "An authentication service built with FastAPI, Postgres, and Redis. Handles registration, email verification, login with rotating refresh tokens, password reset, and account deletion, with rate limiting, structured audit logging, and CORS/security headers baked in. Fully Dockerized, with a GitHub Actions CI pipeline running ruff, mypy, pytest, and pip-audit.",
+      "A self-contained authentication service built with FastAPI, Postgres, and Redis. Covers registration, email verification, login, password reset and change, and account deletion with Argon2 hashing. Access tokens are tied to sessions and die the moment a session is revoked, while atomic refresh-token rotation with reuse detection revokes the whole session if a token is replayed. Abuse protection includes Lua-backed rate limiting, per-IP account lockout, enumeration-resistant responses, and trusted-proxy handling. Adds session management, hashed-email audit logs, and background email delivery with retries. Dockerized, with CI running ruff, mypy, pytest against real Redis, pip-audit, and an end-to-end smoke test on the Compose stack.",
     tech: ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker", "GitHub Actions", "ruff", "mypy", "pytest", "CI"],
     github: "https://github.com/Melsso/sentinel",
     diagram: {
       nodes: [
         { id: "client", col: 0, row: "mid", label: "Client" },
-        { id: "auth", col: 1, row: "mid", label: "Auth API", accent: "gold" },
+        { id: "api", col: 1, row: "mid", label: "Auth API", accent: "gold" },
+        { id: "purge", col: 1, row: "top", label: "Session Purge" },
+        { id: "log", col: 1, row: "bottom", label: "Audit Log" },
         { id: "pg", col: 2, row: "top", label: "Postgres", accent: "cyan" },
-        { id: "redis", col: 2, row: "bottom", label: "Redis", accent: "cyan" },
-        { id: "log", col: 3, row: "mid", label: "Audit Log" }
+        { id: "redis", col: 2, row: "mid", label: "Redis", accent: "cyan" },
+        { id: "email", col: 2, row: "bottom", label: "Email Tasks", accent: "gold" },
+        { id: "smtp", col: 3, row: "bottom", label: "SMTP" }
       ],
       edges: [
-        { from: "client", to: "auth" },
-        { from: "auth", to: "pg" },
-        { from: "auth", to: "redis" },
-        { from: "auth", to: "log", dashed: true }
+        { from: "client", to: "api" },
+        { from: "api", to: "pg" },
+        { from: "api", to: "redis" },
+        { from: "api", to: "email" },
+        { from: "email", to: "smtp" },
+        { from: "api", to: "log", dashed: true },
+        { from: "purge", to: "pg", dashed: true }
       ]
     }
   },
@@ -108,23 +155,24 @@ const PROJECTS = [
     status: "Complete",
     tagline: "An async task queue with worker registration, retries, and heartbeats.",
     description:
-      "An asynchronous task queue system built with FastAPI, SQLAlchemy, and distributed workers. Workers register capabilities, receive tasks from a broker, execute jobs asynchronously, and report results, with support for task prioritization, retries, heartbeats, and full end-to-end task lifecycle management.",
+      "An asynchronous task queue built with FastAPI and SQLAlchemy: a broker plus workers that register capabilities, long-poll for tasks, and report results. Features priorities with optional aging, named queues, capability-based routing, retries with exponential backoff, timeouts, idempotency keys, and fencing tokens so a stale worker can never overwrite a newer attempt. Heartbeats and recovery loops handle dead workers and lost assignments with at-least-once delivery. Runs on SQLite or PostgreSQL (`FOR UPDATE SKIP LOCKED`), with async and sync Python clients, a Prometheus `/metrics` endpoint, and separate client and worker credentials. Dockerized, with CI running the suite on both databases, including a multi-process claim test.",
     tech: ["Python", "FastAPI", "SQLAlchemy", "Distributed Workers", "Async", "CI"],
     github: "https://github.com/Melsso/queue-task-manager",
     diagram: {
       nodes: [
-        { id: "producer", col: 0, row: "mid", label: "Producer" },
-        { id: "broker", col: 1, row: "mid", label: "Broker", accent: "gold" },
-        { id: "worker1", col: 2, row: "top", label: "Worker #1", accent: "gold" },
-        { id: "worker2", col: 2, row: "bottom", label: "Worker #2", accent: "gold" },
-        { id: "db", col: 3, row: "mid", label: "Result DB", accent: "cyan" }
+        { id: "client", col: 0, row: "mid", label: "Client" },
+        { id: "broker", col: 1, row: "mid", label: "Broker API", accent: "gold" },
+        { id: "db", col: 2, row: "mid", label: "SQLite / Postgres", accent: "cyan" },
+        { id: "reaper", col: 2, row: "top", label: "Reaper Loop" },
+        { id: "w1", col: 0, row: "bottom", label: "Worker #1", accent: "gold" },
+        { id: "w2", col: 1, row: "bottom", label: "Worker #2", accent: "gold" }
       ],
       edges: [
-        { from: "producer", to: "broker" },
-        { from: "broker", to: "worker1" },
-        { from: "broker", to: "worker2" },
-        { from: "worker1", to: "db" },
-        { from: "worker2", to: "db" }
+        { from: "client", to: "broker" },
+        { from: "broker", to: "db" },
+        { from: "reaper", to: "db", dashed: true },
+        { from: "w1", to: "broker" },
+        { from: "w2", to: "broker" }
       ]
     }
   },
@@ -134,31 +182,69 @@ const PROJECTS = [
     status: "Complete",
     tagline: "An async rate-limiting library with three strategies and atomic Redis ops.",
     description:
-      "An asynchronous Python rate limiting library built with FastAPI and Redis, supporting Fixed Window, Sliding Window, and Token Bucket algorithms. Uses Lua scripts for atomic Redis operations, includes FastAPI middleware and route decorators for seamless integration, exposes standard rate-limit response headers, and is fully tested with pytest, ruff, mypy, GitHub Actions CI, and pytest-benchmark.",
+      "An asynchronous rate limiting library for FastAPI backed by Redis, supporting Fixed Window, Sliding Window, and Token Bucket algorithms. Atomic Lua scripts keep limits exact under concurrency, and it plugs in as a route decorator, dependency, or pure ASGI middleware. Supports weighted request costs, per-tier limits, IPv6-aware client identification, and custom 429 responses. Handles Redis outages with a circuit breaker and an in-memory fallback limiter, and works with Redis, Valkey, and Redis Cluster. Fully typed and tested with pytest against real Redis containers, with GitHub Actions CI running ruff, mypy, and a version matrix across Redis 5 to 8, Valkey, and a 3-master cluster.",
     tech: ["Python", "FastAPI", "Redis", "Lua", "pytest-benchmark", "CI"],
     github: "https://github.com/Melsso/rate-limiter",
     diagram: {
       nodes: [
-        { id: "request", col: 0, row: "mid", label: "Request" },
-        { id: "mw", col: 1, row: "mid", label: "Middleware", accent: "gold" },
-        { id: "redis", col: 2, row: "mid", label: "Redis + Lua", accent: "cyan" },
-        { id: "response", col: 3, row: "mid", label: "Allow / Deny" }
+        { id: "app", col: 0, row: "mid", label: "FastAPI App" },
+        { id: "mw", col: 1, row: "top", label: "Middleware", accent: "gold" },
+        { id: "dep", col: 1, row: "mid", label: "Dependency", accent: "gold" },
+        { id: "deco", col: 1, row: "bottom", label: "Decorator", accent: "gold" },
+        { id: "guard", col: 2, row: "mid", label: "Guard", accent: "gold" },
+        { id: "algos", col: 3, row: "top", label: "Algorithms", accent: "gold" },
+        { id: "redis", col: 3, row: "mid", label: "Redis + Lua", accent: "cyan" },
+        { id: "fallback", col: 3, row: "bottom", label: "Memory Fallback" }
       ],
       edges: [
-        { from: "request", to: "mw" },
-        { from: "mw", to: "redis" },
-        { from: "redis", to: "response" }
+        { from: "app", to: "mw" },
+        { from: "app", to: "dep" },
+        { from: "app", to: "deco" },
+        { from: "mw", to: "guard" },
+        { from: "dep", to: "guard" },
+        { from: "deco", to: "guard" },
+        { from: "guard", to: "algos" },
+        { from: "algos", to: "redis" },
+        { from: "guard", to: "fallback", dashed: true }
       ]
     }
   },
-  
+  {
+    id: "mini-cache",
+    name: "Mini Cache",
+    status: "Complete",
+    tagline: "A Redis-wire-compatible cache with replication and consistent-hash sharding.",
+    description:
+      "A Redis-wire-compatible (RESP2) cache server built from scratch in Python/asyncio with no runtime dependencies, usable with `redis-cli` and standard Redis clients. Supports TTL expiry, `maxmemory` with LRU eviction, password auth, and client limits, plus AOF persistence with group-committed fsync, crash-safe torn-tail repair, and background log rewrite. Primary/replica replication uses per-replica queues so a slow replica never stalls the primary, with heartbeat-based failure detection and auto-reconnect. A client-side consistent-hashing router adds connection pooling, pipelining, and timeouts across shards. Deployable as a multi-shard cluster with Docker Compose and tested over real sockets in CI with pytest, ruff, and mypy.",
+    tech: ["Python", "asyncio", "RESP2", "Consistent Hashing", "Docker Compose"],
+    github: "https://github.com/Melsso/mini_cache",
+    diagram: {
+      nodes: [
+        { id: "client", col: 0, row: "mid", label: "Cluster Client" },
+        { id: "ring", col: 1, row: "mid", label: "Hash Ring", accent: "gold" },
+        { id: "s1", col: 2, row: "top", label: "Shard 1", accent: "cyan" },
+        { id: "s2", col: 2, row: "mid", label: "Shard 2", accent: "cyan" },
+        { id: "s3", col: 2, row: "bottom", label: "Shard 3", accent: "cyan" },
+        { id: "replica", col: 3, row: "top", label: "Replica" },
+        { id: "aof", col: 3, row: "mid", label: "AOF Log" }
+      ],
+      edges: [
+        { from: "client", to: "ring" },
+        { from: "ring", to: "s1" },
+        { from: "ring", to: "s2" },
+        { from: "ring", to: "s3" },
+        { from: "s1", to: "replica", dashed: true },
+        { from: "s1", to: "aof", dashed: true }
+      ]
+    }
+  },
   {
     id: "search-engine",
     name: "Search Engine",
     status: "Complete",
     tagline: "A vector database built from scratch, benchmarking brute-force vs. HNSW.",
     description:
-      "A vector database built from scratch in Python: brute-force and HNSW approximate search, named collections with metadata filtering, disk persistence, a FastAPI HTTP layer, Docker deployment, and CI - with real benchmarking work showing where HNSW actually beats brute force and what it costs to get there.",
+      "A vector database built from scratch in Python: exact brute-force search as a correctness baseline, a multi-layer HNSW index implementing the paper's diversity-preserving neighbor-selection heuristic, named collections with their own dimension, metric and index backend, exact-match metadata filtering, and atomic JSON snapshot persistence. Exposed through a FastAPI HTTP layer and deployable with Docker Compose. Benchmarked honestly: a first fixed-`ef_search` run looked like an 81x speedup but hid recall collapsing to 59%, so the real comparison tunes `ef_search` to hold about 95% recall, where HNSW is 1.7x faster at 1,000 vectors and 10.6x faster at 80,000, with a steep build-time cost (144s vs 0.08s). Tested with pytest (HNSW recall measured against brute force, the API through real HTTP requests), with ruff and mypy in CI.",
     tech: ["Python", "FastAPI", "HNSW", "Vector Search", "Docker", "CI"],
     github: "https://github.com/Melsso/search-engine",
     diagram: {
@@ -178,56 +264,6 @@ const PROJECTS = [
       ]
     }
   },
-  {
-    id: "mini-cache",
-    name: "Mini Cache",
-    status: "Complete",
-    tagline: "A Redis-wire-compatible cache with replication and consistent-hash sharding.",
-    description:
-      "A distributed, Redis-wire-compatible (RESP2) key-value cache built from scratch in Python/asyncio. Supports TTL-based expiry, AOF persistence, primary/replica replication with heartbeat-based failover detection, and client-side consistent-hashing sharding across multiple nodes. Deployable via Docker Compose as a multi-shard cluster.",
-    tech: ["Python", "asyncio", "RESP2", "Consistent Hashing", "Docker Compose"],
-    github: "https://github.com/Melsso/mini_cache",
-    diagram: {
-      nodes: [
-        { id: "client", col: 0, row: "mid", label: "Client" },
-        { id: "router", col: 1, row: "mid", label: "Hash Ring", accent: "gold" },
-        { id: "primary", col: 2, row: "top", label: "Primary", accent: "cyan" },
-        { id: "replica", col: 2, row: "bottom", label: "Replica", accent: "cyan" },
-        { id: "aof", col: 3, row: "top", label: "AOF Log" }
-      ],
-      edges: [
-        { from: "client", to: "router" },
-        { from: "router", to: "primary" },
-        { from: "primary", to: "replica", dashed: true },
-        { from: "primary", to: "aof", dashed: true }
-      ]
-    }
-  },
-  {
-    id: "transcendence",
-    name: "Transcendence",
-    status: "Complete",
-    tagline: "A real-time multiplayer Pong platform with tournaments and live chat.",
-    description:
-      "A gaming platform built around Pong, where users create accounts, edit profiles, play games, host tournaments, and chat in real time. Built with Django, PostgreSQL, and a JS/HTML/Bootstrap frontend, using Redis, Daphne, and WebSockets for real-time gameplay and chat, all deployed with Docker Compose.",
-    tech: ["Django", "PostgreSQL", "Daphne", "WebSocket", "Redis", "Docker Compose"],
-    github: "https://github.com/Melsso/Transcendence",
-    diagram: {
-      nodes: [
-        { id: "browser", col: 0, row: "mid", label: "Browser" },
-        { id: "rest", col: 1, row: "top", label: "Django REST", accent: "gold" },
-        { id: "ws", col: 1, row: "bottom", label: "Daphne WS", accent: "gold" },
-        { id: "pg", col: 2, row: "top", label: "Postgres", accent: "cyan" },
-        { id: "redis", col: 2, row: "bottom", label: "Redis", accent: "cyan" }
-      ],
-      edges: [
-        { from: "browser", to: "rest" },
-        { from: "browser", to: "ws" },
-        { from: "rest", to: "pg" },
-        { from: "ws", to: "redis" }
-      ]
-    }
-  }
 ];
 
 const DIAGRAM_W = 386;
@@ -325,9 +361,36 @@ function renderDiagramSVG(projectId, diagram) {
   `;
 }
 
-/* ============================================================
-   CARD + MODAL RENDERING
-   ============================================================ */
+function videoHTML(url, projectName) {
+  if (!url) return "";
+
+  const title = `${projectName} demo video`;
+  let m;
+
+  m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  if (m) {
+    return `<iframe class="project-modal__video" src="https://www.youtube-nocookie.com/embed/${m[1]}"
+      title="${title}" loading="lazy" allowfullscreen
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+  }
+
+  m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) {
+    return `<iframe class="project-modal__video" src="https://player.vimeo.com/video/${m[1]}"
+      title="${title}" loading="lazy" allowfullscreen></iframe>`;
+  }
+
+  m = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/);
+  if (m) {
+    return `<iframe class="project-modal__video" src="https://www.loom.com/embed/${m[1]}"
+      title="${title}" loading="lazy" allowfullscreen></iframe>`;
+  }
+
+  return `<video class="project-modal__video" controls preload="metadata" playsinline src="${url}">
+      <a href="${url}" target="_blank" rel="noopener">Watch the demo</a>
+    </video>`;
+}
+
 
 function tagsHTML(tech, limit) {
   const shown = limit ? tech.slice(0, limit) : tech;
@@ -356,16 +419,20 @@ function visualHTML(project) {
 }
 
 function cardHTML(project) {
+  const demoBadge = project.video
+    ? `<span class="project-card__demo">&#9654; Demo</span>`
+    : "";
   return `
-    <article class="project-card ${project.featured ? "project-card--featured" : ""}" data-project-id="${project.id}" tabindex="0" role="button" aria-haspopup="dialog">
+    <article class="project-card" data-project-id="${project.id}" tabindex="0" role="button" aria-haspopup="dialog">
       ${visualHTML(project)}
       <div class="project-card__body">
         <div class="project-card__meta">
           <span class="project-card__status">${project.status}</span>
+          ${demoBadge}
         </div>
         <h3 class="project-card__name">${project.name}</h3>
         <p class="project-card__tagline">${project.tagline}</p>
-        <div class="project-card__tags">${tagsHTML(project.tech, project.featured ? 6 : 4)}</div>
+        <div class="project-card__tags">${tagsHTML(project.tech, 4)}</div>
       </div>
     </article>
   `;
@@ -387,6 +454,7 @@ function modalContentHTML(project) {
       <h2>${project.name}</h2>
       <p class="project-modal__lede">${project.tagline}</p>
       <p class="project-modal__desc">${project.description}</p>
+      ${videoHTML(project.video, project.name)}
       <div class="project-card__tags">${tagsHTML(project.tech)}</div>
       <div class="project-modal__links">
         <a href="${project.github}" target="_blank" rel="noopener" class="project-link">View on GitHub &rarr;</a>
@@ -401,7 +469,63 @@ document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("project-modal");
   if (!grid || !modal) return;
 
-  grid.innerHTML = PROJECTS.map(cardHTML).join("");
+  const total = PROJECTS.length;
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  let start = 0;
+
+  const nav = document.createElement("div");
+  nav.className = "projects-nav";
+  nav.innerHTML = `
+    <button type="button" class="projects-nav__btn" data-dir="-1" aria-label="Previous projects">&#8249;</button>
+    <span class="projects-nav__count" aria-hidden="true"></span>
+    <button type="button" class="projects-nav__btn" data-dir="1" aria-label="Next projects">&#8250;</button>
+  `;
+  grid.insertAdjacentElement("afterend", nav);
+  const count = nav.querySelector(".projects-nav__count");
+
+  function perView() {
+    return Math.min(total, mobileQuery.matches ? 1 : 2);
+  }
+
+  function render(animate) {
+    const n = perView();
+    const items = [];
+    for (let i = 0; i < n; i++) items.push(PROJECTS[(start + i) % total]);
+    const paint = function () {
+      grid.innerHTML = items.map(cardHTML).join("");
+      grid.classList.remove("is-fading");
+    };
+    count.textContent = items.map((p) => PROJECTS.indexOf(p) + 1).join(" & ") + " / " + total;
+    nav.hidden = total <= n;
+    if (animate) {
+      grid.classList.add("is-fading");
+      setTimeout(paint, 180);
+    } else {
+      paint();
+    }
+  }
+
+  function step(dir) {
+    start = (((start + dir * perView()) % total) + total) % total;
+    render(true);
+  }
+
+  nav.addEventListener("click", function (e) {
+    const btn = e.target.closest("[data-dir]");
+    if (btn) step(Number(btn.dataset.dir));
+  });
+
+  let touchX = null;
+  grid.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  grid.addEventListener("touchend", function (e) {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+  });
+
+  mobileQuery.addEventListener("change", function () { render(false); });
+  render(false);
 
   const modalContent = modal.querySelector(".project-modal__content");
   let lastFocused = null;
@@ -421,6 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("project-modal-open");
+    modalContent.innerHTML = "";
     if (lastFocused) lastFocused.focus();
   }
 

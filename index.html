@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html style="scroll-behavior: smooth;">
+<html lang="en" style="scroll-behavior: smooth;">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>My Portofolio Website</title>
-        <meta name="description" content="">
+        <title>Sofiane Mallem - Portfolio</title>
+        <meta name="description" content="Portfolio of Sofiane Mallem, a Python backend developer building async APIs, real-time services and the infrastructure around them.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/fontAwesome.css">
-        <link rel="stylesheet" href="css/hero-slider.css">
-        <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/projects.css">
-        <link rel="stylesheet" href="css/lightbox.css">
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="css/about.css">
     </head>
 
 <body>
@@ -29,7 +21,12 @@
         <div class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
-                    <a href="#" class="navbar-brand scroll-top">My <em>P</em>ortofolio Website</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand scroll-top">My <em>P</em>ortfolio Website</a>
                 </div>
                 <div id="main-nav" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -57,63 +54,102 @@
 
     <section id="about" class="page-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <div class="icon">
-                            <img src="img/profile.png" alt="">
-                        </div>
-                        <h4>Profile Description</h4>
-                        <div class="line-dec"></div>
-                        <p>I'm a python developer currently looking for my next job, with a Bachelor's degree in Computer Science and 1 year of work experience. My passion lies in solving complex problems using innovative technologies, and I’ve worked across the full stack of development, from front-end to back-end.</p>
-                        <p>I'm always looking for new challenges where I can apply my skills to impactful projects and make a difference. Feel free to explore my work or reach out to connect!</p>
-                    </div>
+
+            <div class="about-intro">
+                <p class="about-eyebrow">About me</p>
+                <h3 class="about-title">I build backend systems that <span>keep running</span>.</h3>
+                <p class="about-lead">
+                    I'm a Python developer based in Heilbronn, Germany. Most recently I owned the pipeline that turns
+                    customer CAD data into rendered images for YOLOv5 training, running on a fleet of Linux servers
+                    with production-level uptime. Outside of work I build distributed systems from scratch (message
+                    brokers, caches, rate limiters, vector search) because it's the best way I know to understand
+                    how they really behave under load.
+                </p>
+            </div>
+
+            <div class="about-stats">
+                <div class="about-stat">
+                    <span class="about-stat__num">~40%</span>
+                    <span class="about-stat__label">faster rendering after migrating the service to a newer Blender version</span>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <div class="icon">
-                            <img src="img/soft_skills.png" alt="" style="width: 80%;transform: translateY(5%);">
-                        </div>
-                        <h4>Soft Skills</h4>
-                        <div class="line-dec"></div>
-                        <p><em>Problem-Solving:</em> Adept at breaking down complex challenges and finding creative, efficient solutions.</p>
-                        <p><em>Adaptability:</em> Quick to learn and adapt to new tools, technologies, and environments in the ever-evolving tech landscape.</p>
-                        <p><em>Collaboration:</em> Experienced in working within dynamic teams, effectively communicating and contributing to group success.</p>
-                        <p><em>Time Management:</em> Skilled in managing multiple tasks and meeting deadlines in fast-paced environments.</p>
-                    </div>
+                <div class="about-stat">
+                    <span class="about-stat__num">99%+</span>
+                    <span class="about-stat__label">uptime on a horizontally scaled rendering service</span>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <div class="icon">
-                            <img src="img/hard_skills.png" alt="" style="width: 80%;transform: translateY(12%);">
-                        </div>
-                        <h4>Hard Skills</h4>
-                        <div class="line-dec"></div>
-                        <p><em>Full-Stack Development:</em> Proficient in both front-end and back-end development, with experience in Django, FastAPI, JS, etc.</p>
-                        <p><em>API Development:</em> Knowledgeable in building and consuming REST APIs to create scalable and dynamic web applications.</p>
-                        <p><em>Algorithms & Data Structures:</em> Strong understanding of fundamental algorithms and data structures, essential for writing efficient code.</p>
-                    </div>
+                <div class="about-stat">
+                    <span class="about-stat__num">5+</span>
+                    <span class="about-stat__label">Linux servers operated with Ansible, containers and GPU assignment</span>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <div class="icon">
-                            <img src="img/cv.png" alt="">
+                <div class="about-stat">
+                    <span class="about-stat__num">5 &rarr; 2&ndash;3</span>
+                    <span class="about-stat__label">days to onboard a new customer, down from about 5, through automation</span>
+                </div>
+            </div>
+
+            <div class="about-cards">
+                <div class="about-card">
+                    <h4>What I've done</h4>
+                    <div class="line-dec"></div>
+                    <ul class="about-list">
+                        <li><em>Owned a data pipeline end to end:</em> validating, transforming and uploading customer CAD datasets, then feeding the renders into model training.</li>
+                        <li><em>Made it faster and steadier:</em> mesh reduction on incoming STL files and a Blender upgrade each gave roughly 40% more render throughput.</li>
+                        <li><em>Ran it in production:</em> scaled the deployment layer with Ansible and served as the main technical contact for incidents and customer requirements.</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h4>How I work</h4>
+                    <div class="line-dec"></div>
+                    <ul class="about-list">
+                        <li><em>Measure first.</em> My Search Engine and Rate Limiter projects ship with benchmarks, so design choices come with numbers.</li>
+                        <li><em>Test and automate.</em> Pytest, ruff, mypy and GitHub Actions CI run on every project I publish.</li>
+                        <li><em>Own the architecture.</em> I use AI coding tools (Claude Code, Cursor) daily, but I decide the design, the data flow and the backend.</li>
+                        <li><em>Communicate clearly.</em> I'm comfortable diagnosing a failure live and then explaining it to a customer.</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h4>Toolbox</h4>
+                    <div class="line-dec"></div>
+                    <div class="about-toolbox">
+                        <p class="about-toolbox__group">Backend</p>
+                        <div class="about-chips">
+                            <span>Python</span><span>FastAPI</span><span>asyncio</span><span>REST</span><span>WebSockets</span><span>OAuth</span>
                         </div>
-                        <h4>Resume</h4>
-                        <div class="line-dec"></div>
-                        <p>You can download my resume by clicking on the button below!</p>
-                        <div class="primary-blue-button">
-                            <a href="img/Sofiane-Mallem-CV.pdf" target="_blank">Downdload</a>
+                        <p class="about-toolbox__group">Data</p>
+                        <div class="about-chips">
+                            <span>PostgreSQL</span><span>pgvector</span><span>Redis</span><span>SQLAlchemy</span><span>Pandas</span>
                         </div>
-                        <h4>Github</h4>
-                        <div class="line-dec"></div>
-                        <p>You can also check out my github profile by clicking on the link below!</p>
-                        <div class="primary-blue-button">
-                            <a href="https://github.com/Melsso" target="_blank">Github</a>
+                        <p class="about-toolbox__group">Infrastructure</p>
+                        <div class="about-chips">
+                            <span>Docker</span><span>Linux</span><span>Nginx</span><span>Ansible</span><span>GitHub Actions</span><span>Cloud Run</span><span>Prometheus</span>
+                        </div>
+                        <p class="about-toolbox__group">ML</p>
+                        <div class="about-chips">
+                            <span>YOLOv5</span><span>Object detection</span><span>Ollama</span><span>MCP</span>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="about-cta">
+                <p class="about-cta__text">
+                    I'm currently open to Python and backend roles.
+                    English, French and Arabic are my working languages, and my German is at A1 and improving.
+                </p>
+                <div class="about-cta__buttons">
+                    <div class="primary-blue-button">
+                        <a href="img/Sofiane-Mallem-CV.pdf" target="_blank">Download resume</a>
+                    </div>
+                    <div class="primary-white-button">
+                        <a href="https://github.com/Melsso" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="primary-white-button">
+                        <a href="https://www.linkedin.com/in/sofiane-mallem-b87302170/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -189,8 +225,8 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <div class="logo">
-                        <a class="logo-ft scroll-top" href="#">My <em>P</em>ortofolio Website</a>
-                        <p>Copyright &copy; 2024 My Portofolio Website 
+                        <a class="logo-ft scroll-top" href="#">My <em>P</em>ortfolio Website</a>
+                        <p>Copyright &copy; 2026 My Portfolio Website
                        <br>Designer: Sofiane Mallem</p>
                     </div>
                 </div>
@@ -219,13 +255,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
     <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/plugins.js"></script>
     <script src="./dist/bundle.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/projects.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </body>
 </html>
