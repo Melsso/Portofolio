@@ -11,12 +11,14 @@
      tech        - array of tech-stack tag strings
      github      - link to the repo
      live        - optional live URL (omit if none)
-     video       - optional demo video URL (omit or leave "" if none).
+     video       - optional demo video (omit or leave "" if none).
                    Supported:
-                     - YouTube / Vimeo / Loom links  -> embedded player
-                     - direct .mp4 / .webm links      -> <video> player
-                     - GitHub user-attachments links  -> <video> player,
-                       with a "Watch the demo" link as fallback
+                     - a YouTube link (watch, youtu.be, shorts):
+                       embedded player. Upload as "Unlisted".
+                     - a path to a file in this repo, e.g.
+                       "videos/lad-demo.mp4": native <video> player.
+                   GitHub user-attachments links do NOT work here: they
+                   only resolve inside github.com.
                    Projects with a video get a "Demo" badge on the card
                    and the player appears in the modal.
      image       - optional path to a real screenshot, e.g.
@@ -40,7 +42,7 @@ const PROJECTS = [
       "A personal, locally hosted ChatGPT/Claude-style chat app built with FastAPI, React, Postgres/pgvector, and Ollama, with no external LLM API. Chats run in a lighter chat mode or a larger agent mode. Both use an MCP-based tool-calling loop (each tool is its own stdio MCP server) with web search and cross-chat semantic memory recall over rolling conversation summaries. Agent mode adds a sandboxed shell and file uploads. The sandbox is an offline, credential-free container on an internal Docker network, running as non-root with dropped capabilities and CPU, memory and process limits, and the API only accepts requests from nginx. Replies stream over SSE. Dockerized behind nginx with a single startup script, and tested with pytest (including real Postgres via testcontainers), Vitest and MSW, with GitHub Actions CI running ruff, mypy, oxlint and tsc.",
     tech: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL", "pgvector", "Ollama", "MCP", "SSE", "Docker Compose", "Nginx", "GitHub Actions"],
     github: "https://github.com/Melsso/lad",
-    video: "https://github.com/user-attachments/assets/173c6464-5a8d-4fe6-8bbb-6c55bdfd601d",
+    video: "https://youtu.be/II_nyNPche0",
     diagram: {
       nodes: [
         { id: "browser", col: 0, row: "mid", label: "Browser" },
@@ -71,7 +73,7 @@ const PROJECTS = [
       "A social dating platform where users register with email/password or Google OAuth, edit profiles with images stored in S3-compatible storage, swipe on other users, and chat after a mutual match. Real-time messaging runs on WebSockets with typing indicators, read receipts and cursor-based pagination. Redis Pub/Sub propagates events across multiple stateless FastAPI instances behind Nginx, with per-user rate limiting, Prometheus metrics and Grafana dashboards. Load tested end to end through Nginx with zero dropped messages at up to 2,000 concurrent WebSocket connections, a test that also exposed and led to a fix for a database-session leak. Built with FastAPI, PostgreSQL, React and TypeScript, Dockerized, with GitHub Actions CI running ruff, mypy and tests against real Postgres and Redis containers.",
     tech: ["Python", "FastAPI", "WebSockets", "Redis Pub/Sub", "PostgreSQL", "NGINX", "Docker", "React", "CI"],
     github: "https://github.com/Melsso/hang",
-    video: "",
+    video: "https://youtu.be/8g7I-qDYjDA",
     diagram: {
       nodes: [
         { id: "client", col: 0, row: "mid", label: "Browser" },
@@ -365,25 +367,11 @@ function videoHTML(url, projectName) {
   if (!url) return "";
 
   const title = `${projectName} demo video`;
-  let m;
-
-  m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
-  if (m) {
-    return `<iframe class="project-modal__video" src="https://www.youtube-nocookie.com/embed/${m[1]}"
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  if (yt) {
+    return `<iframe class="project-modal__video" src="https://www.youtube-nocookie.com/embed/${yt[1]}"
       title="${title}" loading="lazy" allowfullscreen
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
-  }
-
-  m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  if (m) {
-    return `<iframe class="project-modal__video" src="https://player.vimeo.com/video/${m[1]}"
-      title="${title}" loading="lazy" allowfullscreen></iframe>`;
-  }
-
-  m = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/);
-  if (m) {
-    return `<iframe class="project-modal__video" src="https://www.loom.com/embed/${m[1]}"
-      title="${title}" loading="lazy" allowfullscreen></iframe>`;
   }
 
   return `<video class="project-modal__video" controls preload="metadata" playsinline src="${url}">

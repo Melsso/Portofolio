@@ -21,16 +21,16 @@
         <div class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button type="button" class="navbar-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="#" class="navbar-brand scroll-top">My <em>P</em>ortfolio Website</a>
+                    <a href="#" class="navbar-brand">My <em>P</em>ortfolio Website</a>
                 </div>
                 <div id="main-nav" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#" class="scroll-top">Home</a></li>
+                        <li><a href="#">Home</a></li>
                         <li><a href="#about">About Me</a></li>
                         <li><a href="#portfolio">Projects</a></li>
                         <li><a href="#contact-me">Contact Me</a></li>
@@ -46,13 +46,13 @@
                 <h2><em>Sofiane</em> <span>Mallem</span></h2>
                 <p>Hi there! I am a passionate python developer specializing in building innovative, scalable, and user-friendly applications. This portfolio showcases my skills, experience, and the projects I've worked on so far. Feel free to explore, check out my latest projects, and get to know more about my work!</p>
                 <div class="primary-white-button">
-                    <a href="#about" class="scroll-link" data-id="about">Let's Start</a>
+                    <a href="#about">Let's Start</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <section id="about" class="page-section">
+    <section id="about">
         <div class="container">
 
             <div class="about-intro">
@@ -225,7 +225,7 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <div class="logo">
-                        <a class="logo-ft scroll-top" href="#">My <em>P</em>ortfolio Website</a>
+                        <a class="logo-ft" href="#">My <em>P</em>ortfolio Website</a>
                         <p>Copyright &copy; 2026 My Portfolio Website
                        <br>Designer: Sofiane Mallem</p>
                     </div>
@@ -253,11 +253,8 @@
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="./dist/bundle.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script defer src="js/main.js"></script>
+    <script defer src="js/projects.js"></script>
 </body>
 </html>

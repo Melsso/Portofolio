@@ -1,83 +1,85 @@
-jQuery(document).ready(function ($) {
-    'use strict';
+(function () {
+  "use strict";
 
-    var topHeader = $('.parallax-content');
-    topHeader.css({ 'background-position': 'center center' });
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
-    $(window).on('scroll', function () {
-        var st = $(this).scrollTop();
-        topHeader.css({ 'background-position': 'center calc(50% + ' + (st * 0.5) + 'px)' });
-        $('.header').toggleClass('active', st > 100);
-    });
+  const header = document.querySelector(".header");
+  const hero = document.querySelector(".parallax-content");
+  const nav = document.getElementById("main-nav");
+  const navToggle = document.querySelector(".navbar-toggle");
+  const popButton = document.querySelector(".pop-button");
+  const pop = document.querySelector(".pop");
+  const popClose = document.querySelector(".pop > span");
+  const form = document.getElementById("contact");
 
-    $('.pop-button').click(function () {
-        $('.pop').fadeIn(300);
-    });
-    $('.pop > span').click(function () {
-        $('.pop').fadeOut(300);
-    });
-});
+  function onScroll() {
+    const y = window.scrollY;
+    header.classList.toggle("active", y > 100);
+    hero.style.backgroundPosition = "center calc(50% + " + y * 0.5 + "px)";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
+  function setNavOpen(open) {
+    nav.classList.toggle("in", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+  }
+  navToggle.addEventListener("click", function () {
+    setNavOpen(!nav.classList.contains("in"));
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.closest("a")) setNavOpen(false);
+  });
 
-const form = document.getElementById('contact');
+  function setPopOpen(open) {
+    pop.style.display = open ? "block" : "none";
+  }
+  popButton.addEventListener("click", function () { setPopOpen(true); });
+  popClose.addEventListener("click", function () { setPopOpen(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") setPopOpen(false);
+  });
 
-form.addEventListener('submit', function (event) {
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const service_id = process.env.SERVICEID;
-    const template_id = process.env.TEMPLATEID;
-    const api_key = process.env.APIKEY;
-
-    emailjs.init(api_key);
-
-    const t_name = document.getElementById('name').value;
-    const msg = document.getElementById('message').value;
-    const submitButton = document.getElementById('form-submit');
-
-    const tempParam = {
-        to_name: t_name,
-        message: msg,
+    const submitButton = document.getElementById("form-submit");
+    const params = {
+      to_name: document.getElementById("name").value,
+      message: document.getElementById("message").value,
     };
 
-    $(".pop").fadeOut(300);
+    setPopOpen(false);
     submitButton.disabled = true;
 
-    emailjs.send(service_id, template_id, tempParam)
-    .then(function (response) {
-        console.log('Success', response.status, response.text);
-        showNotification('Message sent successfully!', true);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+      .then(function () {
+        showNotification("Message sent successfully!", true);
         form.reset();
+      })
+      .catch(function (error) {
+        console.error("EmailJS error:", error);
+        showNotification("Failed to send message.", false);
+      })
+      .finally(function () {
         submitButton.disabled = false;
-    }, function (error) {
-        console.log('Error:', error);
-        showNotification('Failed to send message.', false);
-        submitButton.disabled = false;
-    });
-});
+      });
+  });
 
-function showNotification(message, success) {
-    const notification = document.createElement('div');
+  function showNotification(message, success) {
+    const note = document.createElement("div");
+    note.className = "email-notification " + (success ? "success" : "error");
+    note.textContent = message;
+    document.body.appendChild(note);
 
-    notification.className = 'email-notification';
-    notification.textContent = message;
-
-    if (success) {
-        notification.classList.add('success');
-    } else {
-        notification.classList.add('error');
-    }
-
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
-
-    setTimeout(() => {
-        notification.classList.remove('show');
-
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
+    setTimeout(function () { note.classList.add("show"); }, 10);
+    setTimeout(function () {
+      note.classList.remove("show");
+      setTimeout(function () { note.remove(); }, 300);
     }, 1500);
-}
+  }
+})();
