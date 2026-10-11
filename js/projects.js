@@ -138,7 +138,7 @@ const PROJECTS = [
       "An object detection API built with FastAPI and Ultralytics YOLO. Clients upload an image and get back labels, confidence scores, bounding boxes and inference time, with optional per-request model selection across multiple loaded YOLO models. Models load in a background task at startup, so the service reports readiness through `/health` and `/status` and returns 503 on `/predict` until they are ready. Ships with a dependency-free web UI (HTML/CSS/JS with canvas overlays and a confidence slider). CPU-only PyTorch Docker image, with GitHub Actions CI running ruff and pytest, publishing to GHCR and deploying to Google Cloud Run via workload identity federation.",
     tech: ["Python", "FastAPI", "YOLO", "Docker", "Google Cloud Run", "GitHub Actions", "CI/CD"],
     github: "https://github.com/Melsso/durden",
-    video: "durden_demo.gif",
+    video: "img/durden_demo.gif",
     diagram: {
       nodes: [
         { id: "client", col: 0, row: "mid", label: "Browser" },
