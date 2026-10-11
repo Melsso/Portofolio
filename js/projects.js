@@ -11,16 +11,23 @@
      tech        - array of tech-stack tag strings
      github      - link to the repo
      live        - optional live URL (omit if none)
-     video       - optional demo video (omit or leave "" if none).
+     video       - optional demo media (omit or leave "" if none).
                    Supported:
                      - a YouTube link (watch, youtu.be, shorts):
                        embedded player. Upload as "Unlisted".
-                     - a path to a file in this repo, e.g.
+                       (YouTube refuses to play when the page is opened
+                       from file://, so test via a local server.)
+                     - a path to an animated image (.gif, .webp, .apng),
+                       e.g. "img/projects/lad-demo.gif": shown inline at
+                       its natural proportions.
+                     - a path to a video file in this repo, e.g.
                        "videos/lad-demo.mp4": native <video> player.
                    GitHub user-attachments links do NOT work here: they
                    only resolve inside github.com.
-                   Projects with a video get a "Demo" badge on the card
-                   and the player appears in the modal.
+                   Projects with demo media get a "Demo" badge on the
+                   card and the player appears in the modal. The player
+                   is about 460 x 258 px on desktop, so export media at
+                   roughly 920 px wide.
      image       - optional path to a real screenshot, e.g.
                    "img/projects/hang.png". If the file is missing
                    or this is omitted, the generated diagram below
@@ -35,7 +42,7 @@
 const PROJECTS = [
   {
     id: "lad",
-    name: "LAD",
+    name: "Lad",
     status: "Flagship",
     tagline: "A fully local AI assistant with a tool-calling agent. No external model API.",
     description:
@@ -92,9 +99,39 @@ const PROJECTS = [
     }
   },
   {
+    id: "human-move",
+    name: "Human Move",
+    status: "Complete",
+    tagline: "A from-scratch chess engine with three human-like strengths, trained on Lichess games.",
+    description:
+      "A chess engine with three human-like playing strengths, inspired by Maia Chess. Residual policy networks are trained on rated Rapid games from Lichess, bucketed by rating, through a chunked single-pass pipeline that streams .pgn.zst dumps into training tensors and splits train and validation by game so positions from one game never leak across the split. At play time each tier adds a temperature and, for the two stronger tiers, a hand-written policy-guided alpha-beta search (iterative deepening, transposition table, null-move pruning, late-move reductions, quiescence) that re-ranks the network's top moves. Strength is measured against Stockfish at fixed UCI_Elo levels and in an inter-tier round robin, with Wilson confidence intervals, giving roughly 1185, 1600 and 2010 on Stockfish's scale (not Lichess ratings). Trained on about half of one monthly Lichess dump. Served by a FastAPI backend with an offline board UI (play either colour, take back, candidate moves, optional Stockfish eval bar). A uv workspace of five packages that share one board and move encoding, with mypy, ruff, pytest suites for every package and GitHub Actions CI.",
+    tech: ["Python", "PyTorch", "FastAPI", "Alpha-beta Search", "python-chess", "NumPy", "uv", "GitHub Actions"],
+    github: "https://github.com/Melsso/human-move",
+    video: "img/human-move_demo.gif",
+    diagram: {
+      nodes: [
+        { id: "pgn", col: 0, row: "top", label: "Lichess PGN" },
+        { id: "data", col: 1, row: "top", label: "Data Prep", accent: "gold" },
+        { id: "train", col: 2, row: "top", label: "Training", accent: "gold" },
+        { id: "browser", col: 0, row: "bottom", label: "Browser" },
+        { id: "api", col: 1, row: "bottom", label: "FastAPI", accent: "gold" },
+        { id: "net", col: 2, row: "bottom", label: "Policy Net", accent: "cyan" },
+        { id: "search", col: 3, row: "bottom", label: "Alpha-beta Search", accent: "gold" }
+      ],
+      edges: [
+        { from: "pgn", to: "data" },
+        { from: "data", to: "train" },
+        { from: "train", to: "net", dashed: true },
+        { from: "browser", to: "api" },
+        { from: "api", to: "net" },
+        { from: "net", to: "search" }
+      ]
+    }
+  },
+  {
     id: "durden",
     name: "Durden",
-    status: "Deployed",
+    status: "Completed",
     tagline: "An object detection API, containerized and shipped to Cloud Run.",
     description:
       "An object detection API built with FastAPI and Ultralytics YOLO. Clients upload an image and get back labels, confidence scores, bounding boxes and inference time, with optional per-request model selection across multiple loaded YOLO models. Models load in a background task at startup, so the service reports readiness through `/health` and `/status` and returns 503 on `/predict` until they are ready. Ships with a dependency-free web UI (HTML/CSS/JS with canvas overlays and a confidence slider). CPU-only PyTorch Docker image, with GitHub Actions CI running ruff and pytest, publishing to GHCR and deploying to Google Cloud Run via workload identity federation.",
@@ -367,6 +404,12 @@ function videoHTML(url, projectName) {
   if (!url) return "";
 
   const title = `${projectName} demo video`;
+
+  if (/\.(gif|webp|apng)(\?.*)?$/i.test(url)) {
+    return `<img class="project-modal__video" style="aspect-ratio:auto;height:auto" src="${url}"
+      alt="${projectName} demo" loading="lazy">`;
+  }
+
   const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
   if (yt) {
     return `<iframe class="project-modal__video" src="https://www.youtube-nocookie.com/embed/${yt[1]}"
