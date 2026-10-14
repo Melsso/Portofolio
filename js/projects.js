@@ -101,7 +101,8 @@ const PROJECTS = [
   {
     id: "human-move",
     name: "Human Move",
-    status: "Complete",
+    status: "Deployed",
+    live: "https://human-move-945278219267.europe-west1.run.app/",
     tagline: "A from-scratch chess engine with three human-like strengths, trained on Lichess games.",
     description:
       "A chess engine with three human-like playing strengths, inspired by Maia Chess. Residual policy networks are trained on rated Rapid games from Lichess, bucketed by rating, through a chunked single-pass pipeline that streams .pgn.zst dumps into training tensors and splits train and validation by game so positions from one game never leak across the split. At play time each tier adds a temperature and, for the two stronger tiers, a hand-written policy-guided alpha-beta search (iterative deepening, transposition table, null-move pruning, late-move reductions, quiescence) that re-ranks the network's top moves. Strength is measured against Stockfish at fixed UCI_Elo levels and in an inter-tier round robin, with Wilson confidence intervals, giving roughly 1185, 1600 and 2010 on Stockfish's scale (not Lichess ratings). Trained on about half of one monthly Lichess dump. Served by a FastAPI backend with an offline board UI (play either colour, take back, candidate moves, optional Stockfish eval bar). A uv workspace of five packages that share one board and move encoding, with mypy, ruff, pytest suites for every package and GitHub Actions CI.",
