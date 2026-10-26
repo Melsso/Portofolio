@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Sofiane Mallem - Portfolio</title>
+        <meta name="description" content="Portfolio of Sofiane Mallem, a Python backend developer building async APIs, real-time services and the infrastructure around them.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/projects.css">
+        <link rel="stylesheet" href="css/about.css">
+    </head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">My <em>P</em>ortfolio Website</a>
+                </div>
+                <div id="main-nav" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#about">About Me</a></li>
+                        <li><a href="#portfolio">Projects</a></li>
+                        <li><a href="#contact-me">Contact Me</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="parallax-content baner-content" id="home">
+        <div class="container">
+            <div class="text-content">
+                <h2><em>Sofiane</em> <span>Mallem</span></h2>
+                <p>Hi there! I am a passionate python developer specializing in building innovative, scalable, and user-friendly applications. This portfolio showcases my skills, experience, and the projects I've worked on so far. Feel free to explore, check out my latest projects, and get to know more about my work!</p>
+                <div class="primary-white-button">
+                    <a href="#about">Let's Start</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="about">
+        <div class="container">
+
+            <div class="about-intro">
+                <p class="about-eyebrow">About me</p>
+                <h3 class="about-title">I build backend systems that <span>keep running</span>.</h3>
+                <p class="about-lead">
+                    I'm a Python developer based in Heilbronn, Germany. Most recently I owned the pipeline that turns
+                    customer CAD data into rendered images for YOLOv5 training, running on a fleet of Linux servers
+                    with production-level uptime. Outside of work I build distributed systems from scratch (message
+                    brokers, caches, rate limiters, vector search) because it's the best way I know to understand
+                    how they really behave under load.
+                </p>
+            </div>
+
+            <div class="about-stats">
+                <div class="about-stat">
+                    <span class="about-stat__num">~40%</span>
+                    <span class="about-stat__label">faster rendering after migrating the service to a newer Blender version</span>
+                </div>
+                <div class="about-stat">
+                    <span class="about-stat__num">99%+</span>
+                    <span class="about-stat__label">uptime on a horizontally scaled rendering service</span>
+                </div>
+                <div class="about-stat">
+                    <span class="about-stat__num">5+</span>
+                    <span class="about-stat__label">Linux servers operated with Ansible, containers and GPU assignment</span>
+                </div>
+                <div class="about-stat">
+                    <span class="about-stat__num">5 &rarr; 2&ndash;3</span>
+                    <span class="about-stat__label">days to onboard a new customer, down from about 5, through automation</span>
+                </div>
+            </div>
+
+            <div class="about-cards">
+                <div class="about-card">
+                    <h4>What I've done</h4>
+                    <div class="line-dec"></div>
+                    <ul class="about-list">
+                        <li><em>Owned a data pipeline end to end:</em> validating, transforming and uploading customer CAD datasets, then feeding the renders into model training.</li>
+                        <li><em>Made it faster and steadier:</em> mesh reduction on incoming STL files and a Blender upgrade each gave roughly 40% more render throughput.</li>
+                        <li><em>Ran it in production:</em> scaled the deployment layer with Ansible and served as the main technical contact for incidents and customer requirements.</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h4>How I work</h4>
+                    <div class="line-dec"></div>
+                    <ul class="about-list">
+                        <li><em>Measure first.</em> My Search Engine and Rate Limiter projects ship with benchmarks, so design choices come with numbers.</li>
+                        <li><em>Test and automate.</em> Pytest, ruff, mypy and GitHub Actions CI run on every project I publish.</li>
+                        <li><em>Own the architecture.</em> I use AI coding tools (Claude Code, Cursor) daily, but I decide the design, the data flow and the backend.</li>
+                        <li><em>Communicate clearly.</em> I'm comfortable diagnosing a failure live and then explaining it to a customer.</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h4>Toolbox</h4>
+                    <div class="line-dec"></div>
+                    <div class="about-toolbox">
+                        <p class="about-toolbox__group">Backend</p>
+                        <div class="about-chips">
+                            <span>Python</span><span>FastAPI</span><span>asyncio</span><span>REST</span><span>WebSockets</span><span>OAuth</span>
+                        </div>
+                        <p class="about-toolbox__group">Data</p>
+                        <div class="about-chips">
+                            <span>PostgreSQL</span><span>pgvector</span><span>Redis</span><span>SQLAlchemy</span><span>Pandas</span>
+                        </div>
+                        <p class="about-toolbox__group">Infrastructure</p>
+                        <div class="about-chips">
+                            <span>Docker</span><span>Linux</span><span>Nginx</span><span>Ansible</span><span>GitHub Actions</span><span>Cloud Run</span><span>Prometheus</span>
+                        </div>
+                        <p class="about-toolbox__group">ML</p>
+                        <div class="about-chips">
+                            <span>YOLOv5</span><span>Object detection</span><span>Ollama</span><span>MCP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-cta">
+                <p class="about-cta__text">
+                    I'm currently open to Python and backend roles.
+                    English and French are my working languages, and my German is at A1 and improving.
+                </p>
+                <div class="about-cta__buttons">
+                    <div class="primary-blue-button">
+                        <a href="img/Sofiane-Mallem-CV.pdf" target="_blank">Download resume</a>
+                    </div>
+                    <div class="primary-white-button">
+                        <a href="https://github.com/Melsso" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="primary-white-button">
+                        <a href="https://www.linkedin.com/in/sofiane-mallem-b87302170/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="content-wrapper">
+            <div class="inner-container container">
+                <div class="section-heading">
+                    <h4>My Projects</h4>
+                    <div class="line-dec"></div>
+                    <p>A selection of backend systems and platforms I've built recently &mdash; from real-time infra to services built from scratch.</p>
+                </div>
+
+                <div id="projects-grid" class="projects-grid" aria-live="polite">
+                </div>
+            </div>
+        </div>
+
+        <div id="project-modal" class="project-modal" aria-hidden="true">
+            <div class="project-modal__backdrop" data-close></div>
+            <div class="project-modal__panel" role="dialog" aria-modal="true" aria-label="Project details">
+                <button type="button" class="project-modal__close" data-close aria-label="Close">&times;</button>
+                <div class="project-modal__content">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="contact-me">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h4>Contact Me</h4>
+                        <div class="line-dec"></div>
+                        <p>I'm always excited to connect with fellow developers, potential collaborators, or anyone interested in discussing tech, projects, or opportunities. If you have a question, a project idea, or just want to say hello, feel free to reach out!</p>
+                        <div class="pop-button">
+                            <h4>Send me a message</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="pop">
+                        <span>✖</span>
+                        <form id="contact" action="#" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <input name="name" type="text" class="form-control" id="name" placeholder="Your name..." required>
+                                  </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <textarea name="message" rows="6" class="form-control" id="message" placeholder="Your message..." required></textarea>
+                                  </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <button type="submit" id="form-submit" class="btn">Send Message</button>
+                                  </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="logo">
+                        <a class="logo-ft" href="#">My <em>P</em>ortfolio Website</a>
+                        <p>Copyright &copy; 2026 My Portfolio Website
+                       <br>Designer: Sofiane Mallem</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="location">
+                        <h4>Location</h4>
+                        <ul>
+                            <li>Germany</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <div class="contact-info">
+                        <h4>More Info</h4>
+                        <ul>
+                            <li><em>Phone</em>: 015231418284</li>
+                            <li><em>Email</em>: sofiane.mallem.07@gmail.com</li>
+                            <li><a href="https://www.linkedin.com/in/sofiane-mallem-b87302170/">LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script defer src="js/main.js"></script>
+    <script defer src="js/projects.js"></script>
+</body>
+</html>
