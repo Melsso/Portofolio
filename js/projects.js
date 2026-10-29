@@ -43,7 +43,7 @@ const PROJECTS = [
   {
     id: "lad",
     name: "Lad",
-    status: "Flagship",
+    status: "Complete",
     tagline: "A fully local AI assistant with a tool-calling agent. No external model API.",
     description:
       "A personal, locally hosted ChatGPT/Claude-style chat app built with FastAPI, React, Postgres/pgvector, and Ollama, with no external LLM API. Chats run in a lighter chat mode or a larger agent mode. Both use an MCP-based tool-calling loop (each tool is its own stdio MCP server) with web search and cross-chat semantic memory recall over rolling conversation summaries. Agent mode adds a sandboxed shell and file uploads. The sandbox is an offline, credential-free container on an internal Docker network, running as non-root with dropped capabilities and CPU, memory and process limits, and the API only accepts requests from nginx. Replies stream over SSE. Dockerized behind nginx with a single startup script, and tested with pytest (including real Postgres via testcontainers), Vitest and MSW, with GitHub Actions CI running ruff, mypy, oxlint and tsc.",
@@ -74,27 +74,33 @@ const PROJECTS = [
   {
     id: "hang",
     name: "Hang",
-    status: "Complete",
-    tagline: "A real-time social/dating platform built to scale horizontally.",
+    status: "Flagship",
+    tagline: "A real-time social platform on Kubernetes, built to scale horizontally.",
     description:
-      "A social dating platform where users register with email/password or Google OAuth, edit profiles with images stored in S3-compatible storage, swipe on other users, and chat after a mutual match. Real-time messaging runs on WebSockets with typing indicators, read receipts and cursor-based pagination. Redis Pub/Sub propagates events across multiple stateless FastAPI instances behind Nginx, with per-user rate limiting, Prometheus metrics and Grafana dashboards. Load tested end to end through Nginx with zero dropped messages at up to 2,000 concurrent WebSocket connections, a test that also exposed and led to a fix for a database-session leak. Built with FastAPI, PostgreSQL, React and TypeScript, Dockerized, with GitHub Actions CI running ruff, mypy and tests against real Postgres and Redis containers.",
-    tech: ["Python", "FastAPI", "WebSockets", "Redis Pub/Sub", "PostgreSQL", "NGINX", "Docker", "React", "CI"],
+      "A social dating platform where users register with email/password or Google OAuth, edit profiles with images stored in S3-compatible storage, swipe on other users, and chat after a mutual match. Real-time messaging runs on WebSockets with typing indicators, read receipts and cursor-based pagination, and the client reconnects with backoff and resyncs after a drop. Redis Pub/Sub propagates events across stateless FastAPI replicas, with per-user rate limiting, health and readiness probes, Prometheus metrics and Grafana dashboards. Deployed to a local Kubernetes (kind) cluster behind ingress-nginx through Kustomize overlays for dev, qa and prod, with prod pinned to a dedicated tainted node pool, a non-root image, and Postgres and Redis kept outside the cluster by design. Load tested through the ingress controller with zero dropped messages at up to 2,000 concurrent WebSocket connections, a test that also exposed and led to fixes for a database-session leak and a join-before-accept race. GitHub Actions CI runs ruff, mypy and tests against real Postgres and Redis containers, renders every overlay, deploys to a kind cluster and smoke-tests a WebSocket message through the ingress; version tags publish images to GHCR.",
+    tech: ["Kubernetes", "FastAPI", "WebSockets", "Redis Pub/Sub", "PostgreSQL", "Kustomize", "Prometheus", "Grafana", "Docker", "React", "GitHub Actions"],
     github: "https://github.com/Melsso/hang",
     video: "https://youtu.be/8g7I-qDYjDA",
     diagram: {
       nodes: [
         { id: "client", col: 0, row: "mid", label: "Browser" },
-        { id: "lb", col: 1, row: "mid", label: "NGINX LB", accent: "cyan" },
+        { id: "ingress", col: 1, row: "mid", label: "Ingress", accent: "cyan" },
         { id: "api1", col: 2, row: "top", label: "API #1", accent: "gold" },
         { id: "api2", col: 2, row: "bottom", label: "API #2", accent: "gold" },
-        { id: "redis", col: 3, row: "mid", label: "Redis Pub/Sub", accent: "cyan" }
+        { id: "prom", col: 2, row: "mid", label: "Prometheus" },
+        { id: "redis", col: 3, row: "top", label: "Redis Pub/Sub", accent: "cyan" },
+        { id: "pg", col: 3, row: "bottom", label: "Postgres", accent: "cyan" }
       ],
       edges: [
-        { from: "client", to: "lb" },
-        { from: "lb", to: "api1" },
-        { from: "lb", to: "api2" },
+        { from: "client", to: "ingress" },
+        { from: "ingress", to: "api1" },
+        { from: "ingress", to: "api2" },
         { from: "api1", to: "redis" },
-        { from: "api2", to: "redis" }
+        { from: "api2", to: "redis" },
+        { from: "api1", to: "pg" },
+        { from: "api2", to: "pg" },
+        { from: "prom", to: "api1", dashed: true },
+        { from: "prom", to: "api2", dashed: true }
       ]
     }
   },
