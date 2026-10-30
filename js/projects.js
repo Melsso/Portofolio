@@ -41,37 +41,6 @@
 
 const PROJECTS = [
   {
-    id: "lad",
-    name: "Lad",
-    status: "Complete",
-    tagline: "A fully local AI assistant with a tool-calling agent. No external model API.",
-    description:
-      "A personal, locally hosted ChatGPT/Claude-style chat app built with FastAPI, React, Postgres/pgvector, and Ollama, with no external LLM API. Chats run in a lighter chat mode or a larger agent mode. Both use an MCP-based tool-calling loop (each tool is its own stdio MCP server) with web search and cross-chat semantic memory recall over rolling conversation summaries. Agent mode adds a sandboxed shell and file uploads. The sandbox is an offline, credential-free container on an internal Docker network, running as non-root with dropped capabilities and CPU, memory and process limits, and the API only accepts requests from nginx. Replies stream over SSE. Dockerized behind nginx with a single startup script, and tested with pytest (including real Postgres via testcontainers), Vitest and MSW, with GitHub Actions CI running ruff, mypy, oxlint and tsc.",
-    tech: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL", "pgvector", "Ollama", "MCP", "SSE", "Docker Compose", "Nginx", "GitHub Actions"],
-    github: "https://github.com/Melsso/lad",
-    video: "https://youtu.be/II_nyNPche0",
-    diagram: {
-      nodes: [
-        { id: "browser", col: 0, row: "mid", label: "Browser" },
-        { id: "nginx", col: 1, row: "mid", label: "Nginx", accent: "cyan" },
-        { id: "api", col: 2, row: "mid", label: "FastAPI", accent: "gold" },
-        { id: "tools", col: 2, row: "bottom", label: "MCP Tools", accent: "gold" },
-        { id: "ollama", col: 3, row: "top", label: "Ollama (host)", accent: "gold" },
-        { id: "pg", col: 3, row: "mid", label: "Postgres pgvector", accent: "cyan" },
-        { id: "sandbox", col: 3, row: "bottom", label: "Sandbox" }
-      ],
-      edges: [
-        { from: "browser", to: "nginx" },
-        { from: "nginx", to: "api" },
-        { from: "api", to: "pg" },
-        { from: "api", to: "ollama" },
-        { from: "api", to: "tools" },
-        { from: "tools", to: "pg" },
-        { from: "tools", to: "sandbox" }
-      ]
-    }
-  },
-  {
     id: "hang",
     name: "Hang",
     status: "Flagship",
@@ -101,6 +70,37 @@ const PROJECTS = [
         { from: "api2", to: "pg" },
         { from: "prom", to: "api1", dashed: true },
         { from: "prom", to: "api2", dashed: true }
+      ]
+    }
+  },
+  {
+    id: "lad",
+    name: "LAD",
+    status: "Complete",
+    tagline: "A fully local AI assistant with a tool-calling agent. No external model API.",
+    description:
+      "A personal, locally hosted ChatGPT/Claude-style chat app built with FastAPI, React, Postgres/pgvector, and Ollama, with no external LLM API. Chats run in a lighter chat mode or a larger agent mode. Both use an MCP-based tool-calling loop (each tool is its own stdio MCP server) with web search and cross-chat semantic memory recall over rolling conversation summaries. Agent mode adds a sandboxed shell and file uploads. The sandbox is an offline, credential-free container on an internal Docker network, running as non-root with dropped capabilities and CPU, memory and process limits, and the API only accepts requests from nginx. Replies stream over SSE. Dockerized behind nginx with a single startup script, and tested with pytest (including real Postgres via testcontainers), Vitest and MSW, with GitHub Actions CI running ruff, mypy, oxlint and tsc.",
+    tech: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL", "pgvector", "Ollama", "MCP", "SSE", "Docker Compose", "Nginx", "GitHub Actions"],
+    github: "https://github.com/Melsso/lad",
+    video: "https://youtu.be/II_nyNPche0",
+    diagram: {
+      nodes: [
+        { id: "browser", col: 0, row: "mid", label: "Browser" },
+        { id: "nginx", col: 1, row: "mid", label: "Nginx", accent: "cyan" },
+        { id: "api", col: 2, row: "mid", label: "FastAPI", accent: "gold" },
+        { id: "tools", col: 2, row: "bottom", label: "MCP Tools", accent: "gold" },
+        { id: "ollama", col: 3, row: "top", label: "Ollama (host)", accent: "gold" },
+        { id: "pg", col: 3, row: "mid", label: "Postgres pgvector", accent: "cyan" },
+        { id: "sandbox", col: 3, row: "bottom", label: "Sandbox" }
+      ],
+      edges: [
+        { from: "browser", to: "nginx" },
+        { from: "nginx", to: "api" },
+        { from: "api", to: "pg" },
+        { from: "api", to: "ollama" },
+        { from: "api", to: "tools" },
+        { from: "tools", to: "pg" },
+        { from: "tools", to: "sandbox" }
       ]
     }
   },
